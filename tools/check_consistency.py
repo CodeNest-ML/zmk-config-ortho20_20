@@ -26,6 +26,8 @@ PM = {
     20: "P0.29", 21: "P0.31",
 }
 
+MANUAL = ROOT / "Media" / "20_20 split keyboard BOM and manual.md"
+
 # Expected wiring, from Media/20_20 split keyboard BOM and manual.md
 # Both halves are wired identically: columns 106/104/011/100/024/022, rows 113/111/010/009.
 EXPECT = {
@@ -40,6 +42,31 @@ EXPECT = {
 }
 
 failures = 0
+
+
+def manual_wiring():
+    """Parse the wiring tables out of the BOM manual markdown.
+
+    The manual lists the pins as `106` (P1.06) style pairs, i.e. the nRF52840
+    port/pin name with the dot removed.
+    """
+    lines = MANUAL.read_text(encoding="utf-8").splitlines()
+    tables = {}
+    for i, line in enumerate(lines):
+        m = re.match(r"^\|Half\|(Col|Row) 0\|", line)
+        if not m:
+            continue
+        for row in lines[i + 1:]:
+            if not row.startswith("|"):
+                break
+            if row.startswith("|Left|"):
+                vals = []
+                for cell in row.strip("|").split("|")[1:]:
+                    pin = re.search(r"`(\d)(\d\d)`", cell)
+                    vals.append("P%s.%s" % pin.groups() if pin else None)
+                tables[m.group(1)] = vals
+                break
+    return tables
 
 
 def chk(cond, msg):
@@ -89,6 +116,13 @@ def main():
     chk(not bad, f"studio json x/y matches devicetree physical layout ({len(bad)} mismatches)")
 
     print("== 2. kscan wiring vs BOM manual ==")
+    mw = manual_wiring()
+    print(f"  [manual] cols={mw.get('Col')}")
+    print(f"  [manual] rows={mw.get('Row')}")
+    chk(mw.get("Col") == EXPECT["left"]["cols"],
+        f"BOM manual column table == {EXPECT['left']['cols']}")
+    chk(mw.get("Row") == EXPECT["left"]["rows"],
+        f"BOM manual row table == {EXPECT['left']['rows']}")
     for half in ("left", "right"):
         ov = (DTS / f"ortho20_20_{half}.overlay").read_text(encoding="utf-8")
         cblk = re.search(r"col-gpios(.*?);", ov, re.S).group(1)

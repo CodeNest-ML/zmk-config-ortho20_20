@@ -17,10 +17,26 @@
 
 Pinout
 
-Left Half                                              Right Half
+Both halves are wired identically — the same MCU pin serves the same column / row on the
+left and on the right half.
 
-|Columns:  0 - 106 1 - 104 2 - 011 3 - 100 4 - 024 5 - 022|Rows:   0 - 113 1 - 111 2 - 010 3 - 009||Columns:   0 - 106 1 - 104 2 - 011 3 - 100 4 - 024 5 - 022|Rows:   0 - 113 1 - 111 2 - 010 3 - 009|
-|-|-|-|-|-|
+**Columns** — the copper wire running to the second hotswap contact:
+
+|Half|Col 0|Col 1|Col 2|Col 3|Col 4|Col 5|
+|-|-|-|-|-|-|-|
+|Left|`106` (P1.06)|`104` (P1.04)|`011` (P0.11)|`100` (P1.00)|`024` (P0.24)|`022` (P0.22)|
+|Right|`106` (P1.06)|`104` (P1.04)|`011` (P0.11)|`100` (P1.00)|`024` (P0.24)|`022` (P0.22)|
+
+**Rows** — the diode legs soldered together:
+
+|Half|Row 0|Row 1|Row 2|Row 3|
+|-|-|-|-|
+|Left|`113` (P1.13)|`111` (P1.11)|`010` (P0.10)|`009` (P0.09)|
+|Right|`113` (P1.13)|`111` (P1.11)|`010` (P0.10)|`009` (P0.09)|
+
+> [!NOTE]
+> The manual numbers are the Nice!Nano v2 / nRF52840 port-pin names with the dot removed —
+> `P1.06` → `106`, `P0.24` → `024`. Columns 4–5 are `024` / `022` on **both** halves.
 
 # 
 

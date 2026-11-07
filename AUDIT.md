@@ -135,7 +135,7 @@ f0fc407  pro_micro 2 -> gpio0 2     ← 换写法，物理引脚不变（P0.02�
 
   | 文件 | 改动 |
   | --- | --- |
-  | `Media/20_20 split keyboard BOM and manual.md` | 接线表左半区 `4 - 002 5 - 115` → `4 - 024 5 - 022` |
+  | `Media/20_20 split keyboard BOM and manual.md` | 接线表重排为结构化表格：列 `106`/`104`/`011`/`100`/`024`/`022`、行 `113`/`111`/`010`/`009`，并标注 nRF52840 端口针脚名 |
   | `Media/20_20 split keyboard BOM and instructions.pdf` | 第 2 页左半区表格 `4 - 002 / 5 - 115` → `4 - 024 / 5 - 022`（内容流定点替换，字形与位置不变） |
   | `README.md` | Pinout 章节改为两半区共用的**文字接线表**（列 `106`/`104`/`011`/`100`/`024`/`022`，行 `113`/`111`/`010`/`009`，并标注 nRF52840 端口针脚名） |
   | `Media/pinout.png` | **删除** —— 实拍图上手工画的标注只能像素级修补、无法长期维护，接线信息改由 README 文字表承载 |
@@ -228,7 +228,8 @@ west build -d build/right -b nice_nano_v2 -- -DSHIELD=ortho20_20_right -DZMK_CON
 ```
 
 `tools/check_consistency.py` 已内置本报告的全部断言（矩阵几何、keymap 绑定数、Studio JSON 对齐、
-左右半区引脚与 BOM 手册比对、transform 偏移、build.yaml / west.yml 有效性），修复后可一键回归。
+**BOM 手册接线表解析比对**、左右半区引脚、transform 偏移、build.yaml / west.yml 有效性），修复后可一键回归。
+手册表格一旦与固件漂移（例如把 `024` 改成别的值）会立刻报 FAIL。
 
 刷机后自测建议（对应第 2.4 节）：
 
