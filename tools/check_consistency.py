@@ -27,9 +27,10 @@ PM = {
 }
 
 # Expected wiring, from Media/20_20 split keyboard BOM and manual.md + Media/pinout.png
+# Both halves are wired identically: columns 106/104/011/100/024/022, rows 113/111/010/009.
 EXPECT = {
     "left": {
-        "cols": ["P1.06", "P1.04", "P0.11", "P1.00", "P0.02", "P1.15"],
+        "cols": ["P1.06", "P1.04", "P0.11", "P1.00", "P0.24", "P0.22"],
         "rows": ["P1.13", "P1.11", "P0.10", "P0.09"],
     },
     "right": {

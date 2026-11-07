@@ -134,7 +134,7 @@ Hold two bottom-row keys simultaneously to unlock ZMK Studio:
 </p>
 
 > [!NOTE]
-> Columns 0–3 and all rows share the same pins on both halves. Columns 4–5 differ between left (`002`, `115`) and right (`024`, `022`).
+> All columns and all rows use the same pins on both halves — columns `106`, `104`, `011`, `100`, `024`, `022` and rows `113`, `111`, `010`, `009`.
 
 ---
 
@@ -161,6 +161,11 @@ For more details see the [ZMK firmware installation guide](https://zmk.dev/docs/
 
 For convenience, you can download the premade firmware here:
 - [firmware .zip](Premade%20Firmware/firmware%20.zip)
+
+> [!WARNING]
+> This bundle was published **before** the left half was re-wired to `024`/`022`, so its left-half
+> firmware still drives columns 4–5 on `002`/`115`. If your board is wired with `024`/`022`,
+> flash the **freshly built** firmware from the Actions tab instead.
 
 ### ZMK Studio
 
