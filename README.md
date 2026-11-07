@@ -115,7 +115,7 @@ Hold two bottom-row keys simultaneously to unlock ZMK Studio:
 6. **Wire the rows** — Connect the other legs of the diodes together to form rows.
 7. **Insulate rows** — Cover row wiring with **kapton tape** to prevent shorts.
 8. **Wire the columns** — Cut copper wire to length and solder to the second hotswap contact to form columns.
-9. **Connect to controller** — Wire rows and columns to the Nice!Nano v2 (see [Pinout](#-pinout) below).
+9. **Connect to controller** — Wire rows and columns to the Nice!Nano v2 (see [Pinout](#pinout) below).
 10. **Solder power circuit** — Wire the slide switch, battery, and controller together.
 11. **Flash firmware** — Flash the firmware and test all keys.
 
@@ -129,12 +129,26 @@ Hold two bottom-row keys simultaneously to unlock ZMK Studio:
 
 ## Pinout
 
-<p align="center">
-  <img src="Media/pinout.png" alt="Wiring pinout diagram" width="720" />
-</p>
+Both halves are wired identically — the same MCU pin serves the same column / row on the
+left and on the right half.
+
+**Columns** — the copper wire running to the second hotswap contact:
+
+| Half | Col 0 | Col 1 | Col 2 | Col 3 | Col 4 | Col 5 |
+|------|-------|-------|-------|-------|-------|-------|
+| Left | `106` (P1.06) | `104` (P1.04) | `011` (P0.11) | `100` (P1.00) | `024` (P0.24) | `022` (P0.22) |
+| Right | `106` (P1.06) | `104` (P1.04) | `011` (P0.11) | `100` (P1.00) | `024` (P0.24) | `022` (P0.22) |
+
+**Rows** — the diode legs soldered together:
+
+| Half | Row 0 | Row 1 | Row 2 | Row 3 |
+|------|-------|-------|-------|-------|
+| Left | `113` (P1.13) | `111` (P1.11) | `010` (P0.10) | `009` (P0.09) |
+| Right | `113` (P1.13) | `111` (P1.11) | `010` (P0.10) | `009` (P0.09) |
 
 > [!NOTE]
-> All columns and all rows use the same pins on both halves — columns `106`, `104`, `011`, `100`, `024`, `022` and rows `113`, `111`, `010`, `009`.
+> The manual numbers are the Nice!Nano v2 / nRF52840 port-pin names with the dot removed —
+> `P1.06` → `106`, `P0.24` → `024`. Columns 4–5 are `024` / `022` on **both** halves.
 
 ---
 

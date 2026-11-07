@@ -26,7 +26,7 @@ PM = {
     20: "P0.29", 21: "P0.31",
 }
 
-# Expected wiring, from Media/20_20 split keyboard BOM and manual.md + Media/pinout.png
+# Expected wiring, from Media/20_20 split keyboard BOM and manual.md
 # Both halves are wired identically: columns 106/104/011/100/024/022, rows 113/111/010/009.
 EXPECT = {
     "left": {
@@ -88,7 +88,7 @@ def main():
            if int(x) != lay[i]["x"] * 100 or int(y) != lay[i]["y"] * 100]
     chk(not bad, f"studio json x/y matches devicetree physical layout ({len(bad)} mismatches)")
 
-    print("== 2. kscan wiring vs BOM manual / pinout.png ==")
+    print("== 2. kscan wiring vs BOM manual ==")
     for half in ("left", "right"):
         ov = (DTS / f"ortho20_20_{half}.overlay").read_text(encoding="utf-8")
         cblk = re.search(r"col-gpios(.*?);", ov, re.S).group(1)

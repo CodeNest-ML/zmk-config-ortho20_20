@@ -16,11 +16,13 @@
 | | 首版判断（错误） | 修订后（正确） |
 | --- | --- | --- |
 | 左半区 col4/col5 实物接线 | P0.02 / P1.15（002 / 115） | **P0.24 / P0.22（024 / 022）** |
-| 谁错了 | 固件 | **文档**（BOM 手册 / pinout.png / README / PDF 手册） |
+| 谁错了 | 固件 | **文档**（BOM 手册 / README / PDF 手册） |
 | 处理方式 | 改固件 | **回滚固件 + 同步文档** |
 
 已按"回滚固件 + 同步文档"处理完毕：固件回到 `pro_micro 5` / `pro_micro 4`，
-四处接线表全部改为 024 / 022，`python tools/check_consistency.py` 通过。
+BOM 手册（md + PDF）与 README 三处接线表全部改为 024 / 022，
+`Media/pinout.png` 实拍标注图已删除（只能像素级修补、无法长期维护），
+`python tools/check_consistency.py` 通过。
 
 ---
 
@@ -36,7 +38,7 @@
 | 左半区 kscan 列引脚 | ✅ 106 / 104 / 011 / 100 / **024 / 022** |
 | 右半区 kscan 列引脚 | ✅ 106 / 104 / 011 / 100 / **024 / 022** |
 | 行线（两半区） | ✅ 113 / 111 / 010 / 009 |
-| 文档接线表（BOM 手册 / `pinout.png` / README / PDF 手册） | ✅ 已与固件对齐 |
+| 文档接线表（BOM 手册 / README / PDF 手册） | ✅ 已与固件对齐 |
 | 组合键（Studio 解锁） | ✅ 与文档图片一致 |
 
 ---
@@ -66,12 +68,13 @@ col-gpios
 | --- | --- | --- |
 | **实物接线（改线后的板子）** | **024 / 022** | 024 / 022 |
 | `Media/20_20 split keyboard BOM and manual.md` 接线表 | 002 / 115 ❌（已改为 024 / 022） | 024 / 022 |
-| `Media/pinout.png` 实物接线图 | 002 / 115 ❌（已改为 024 / 022） | 024 / 022 |
+| `Media/pinout.png` 实物接线图 | 002 / 115 ❌（**已删除**） | 024 / 022 |
 | `Media/20_20 split keyboard BOM and instructions.pdf` 第 2 页 | 002 / 115 ❌（已改为 024 / 022） | 024 / 022 |
 | `README.md` Pinout 说明 | 002 / 115 ❌（已改为 024 / 022） | 024 / 022 |
 | `boards/shields/ortho20_20/ortho20_20_left.overlay` | 024 / 022 ✅（回滚后） | 024 / 022 ✅ |
 
-即：**文档三处 + PDF 共四处一直停留在改线前的旧值**，首版报告误把文档当成了权威来源。
+即：**BOM 手册（md + PDF）与 README 三处一直停留在改线前的旧值**，首版报告误把文档当成了权威来源。
+（`Media/pinout.png` 实拍标注图同样是旧值的来源，现已删除，见 2.5。）
 
 引脚换算依据：ZMK v0.3 `app/boards/arm/nice_nano/arduino_pro_micro_pins.dtsi`
 （`pro_micro 4`=P0.22、`5`=P0.24、`18`=P1.15、`19`=P0.02）。
@@ -128,14 +131,14 @@ f0fc407  pro_micro 2 -> gpio0 2     ← 换写法，物理引脚不变（P0.02�
 ```
 
 - `pro_micro 5` = P0.24、`pro_micro 4` = P0.22，与右半区（`<&gpio0 24>` / `<&gpio0 22>`）指向同一对物理引脚。
-- 同步更新的四处文档：
+- 同步更新的文档：
 
   | 文件 | 改动 |
   | --- | --- |
   | `Media/20_20 split keyboard BOM and manual.md` | 接线表左半区 `4 - 002 5 - 115` → `4 - 024 5 - 022` |
   | `Media/20_20 split keyboard BOM and instructions.pdf` | 第 2 页左半区表格 `4 - 002 / 5 - 115` → `4 - 024 / 5 - 022`（内容流定点替换，字形与位置不变） |
-  | `Media/pinout.png` | 左半区第 4、5 列标注 `002` / `115` → `024` / `022`（同字体同尺寸字形移植） |
-  | `README.md` | Pinout 说明改为"两半区所有列/行引脚完全相同" |
+  | `README.md` | Pinout 章节改为两半区共用的**文字接线表**（列 `106`/`104`/`011`/`100`/`024`/`022`，行 `113`/`111`/`010`/`009`，并标注 nRF52840 端口针脚名） |
+  | `Media/pinout.png` | **删除** —— 实拍图上手工画的标注只能像素级修补、无法长期维护，接线信息改由 README 文字表承载 |
 
 - 应用后 `python tools/check_consistency.py` → **ALL CHECKS PASSED**。
 
@@ -169,7 +172,7 @@ nice!nano v2 板级占用：LED=P0.15、电源开关=P0.13、uart0=P0.08/P0.06�
 | 14 | Kconfig：`ZMK_SPLIT` 两半区开启、左半区 central、名称只给 central —— 与 ZMK 官方 new-shield 规范一致 | ✅ |
 | 15 | Studio 用法：仅 central（左半区）加 `studio-rpc-usb-uart` snippet —— 符合 ZMK 官方文档 | ✅ |
 | 16 | `Media/Full layout.png` 与 keymap 实际绑定完全对应 | ✅ |
-| 17 | BOM 手册 / PDF 手册 / `pinout.png` / README 四处接线表与固件一致 | ✅ |
+| 17 | BOM 手册（md + PDF）/ README 三处接线表与固件一致 | ✅ |
 
 ---
 
