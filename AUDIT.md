@@ -183,6 +183,13 @@ nice!nano v2 板级占用：LED=P0.15、电源开关=P0.13、uart0=P0.08/P0.06�
    其左半区固件仍是 `002`/`115`。**已改线成 `024`/`022` 的板子不能用它**，
    应从 Actions 页下载当前源码构建的固件。README 已加警告。
 
+   → **已于 2026-11-07 解决**：预编译固件包重新构建并替换为
+   `Premade Firmware/firmware.zip`（旧文件 `firmware .zip` 已删除）。
+   逐字节反汇编新包内的 `ortho20_20_left_with_studio.uf2`，其 `col-gpios` 表为
+   P1.06 / P1.04 / P0.11 / P1.00 / **P0.24 / P0.22**（旧包为 P0.02 / P1.15），
+   行线 P1.13 / P1.11 / P0.10 / P0.09 与两半区手册一致 —— 即新包已含正确引脚。
+   README 中原先的警告已改为说明性 note。
+
 2. **README 的构建产物名不准确**
    README「Build Artifacts」表写的是 `ortho20_20_left_with_studio` / `ortho20_20_right` / `settings_reset`，
    但 ZMK 的 `build-user-config.yml` 实际产物是 `artifact-<name>.uf2`（`settings_reset` 未指定 `artifact-name`，
